@@ -117,18 +117,18 @@ We just need a few simple screens.
 ### Setting a habit
 If there is no active tracking habit in the system, the application should display the setting screen. 
 
-![Habit form](/misc/images/1.png)
+![Habit form](misc/images/1.png)
 
 The user fills in the required fields to start tracking.
 
-![Habit form filled](/misc/images/2.png)
+![Habit form filled](misc/images/2.png)
 
 Pay attention to the input data: all fields are required; the number of days should not be negative. The «start» button should lead to the next screen.
 
 ### Tracking
 If there is a tracking habit set for tracking (or it was filled in a previous step), the user should see the tracking screen. Here they have the opportunity to tick each of the days.
 
-![Tracking](/misc/images/3.png)
+![Tracking](misc/images/3.png)
 
 It is important to process each tick (the **Checked event** of each **CheckBox** object) in order to set and save it in the model. Don't forget to check if the tracking is complete! 
 
