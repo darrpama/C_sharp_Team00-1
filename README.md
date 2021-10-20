@@ -220,7 +220,7 @@ Connect DB to your code so that:
 
 As a bonus task, make it so that at the end of the tracking of the habit (_IsFinished_ == true), a congratulatory message is displayed with the number of completed days and a text of motivation.
 
-![Finished tracking](/misc/images/4.png)
+![Finished tracking](misc/images/4.png)
 
 ### Self-test
 - At the first launch, the application offers to fill in the information to create a habit tracker. 
