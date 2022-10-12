@@ -1,4 +1,4 @@
-# Rush 00 – Piscine .NET
+# Team 00 – Bootcamp .NET
 ### Breaking the Habit
 
 # Contents
