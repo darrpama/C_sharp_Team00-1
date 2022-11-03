@@ -1,4 +1,4 @@
-# Team 00 – Bootcamp .NET
+# Team 00 – .NET Boot camp
 ### Breaking the Habit
 
 # Contents
