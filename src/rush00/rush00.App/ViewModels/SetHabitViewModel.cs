@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using ReactiveUI;
+using rush00.Data;
 
 namespace rush00.App.ViewModels;
 
@@ -94,5 +95,7 @@ public class SetHabitViewModel : PageViewModelBase
             && _StartDate >= DateTimeOffset.Now.Date
             && _ChallengeDays > 0;
     }
-    
+
+    // public event Action<Habit>? OnHabitCreated;
+
 }

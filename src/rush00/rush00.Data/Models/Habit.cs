@@ -1,4 +1,4 @@
-namespace team_00
+namespace rush00.Data.Models
 {
     public class Habit
     {

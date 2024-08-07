@@ -12,10 +12,10 @@
 <!-- см https://github.com/AvaloniaUI/Avalonia.Samples/tree/main/src/Avalonia.Samples/Routing/BasicViewLocatorSample -->
     <Grid RowDefinitions="*, Auto" Margin="10">
         <TransitioningContentControl Content="{Binding CurrentPage}"></TransitioningContentControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
-            <Button Command="{Binding NavigatePreviousCommand}" Content="Back"></Button>
-            <Button Command="{Binding NavigateNextCommand}" Content="Next"></Button>
-        </StackPanel>
+        <!-- <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left"> -->
+        <!--     <Button Command="{Binding NavigatePreviousCommand}" Content="Back"></Button> -->
+        <!--     <Button Command="{Binding NavigateNextCommand}" Content="Let's start!"></Button> -->
+        <!-- </StackPanel> -->
     </Grid>
 
 </Window>
