@@ -22,6 +22,7 @@
                  Watermark="Habit name"
                  UseFloatingWatermark="True">
         </TextBox>
+        
         <TextBlock VerticalAlignment="Center"
                   HorizontalAlignment="Left"
                   FontSize="16"
@@ -35,6 +36,7 @@
                  Watermark="Habit motivation"
                  UseFloatingWatermark="True">
         </TextBox>
+        
         <TextBlock VerticalAlignment="Center"
                   HorizontalAlignment="Left"
                   FontSize="16"
@@ -42,8 +44,20 @@
                   Text="When will you start:"
                   Margin="5 5 5 0">
         </TextBlock>
-        <DatePicker>
-            
+        <DatePicker SelectedDate="{Binding StartDate}">
         </DatePicker>
+        
+        <TextBlock VerticalAlignment="Center"
+                  HorizontalAlignment="Left"
+                  FontSize="16"
+                  TextWrapping="Wrap"
+                  Text="How many days you want to challenge yourself:"
+                  Margin="5 5 5 0">
+        </TextBlock>
+        <NumericUpDown Value="{Binding ChallengeDays}"
+                       Maximum="100"
+                       Minimum="0"
+                       FormatString="0">
+        </NumericUpDown>
     </StackPanel>
 </UserControl>

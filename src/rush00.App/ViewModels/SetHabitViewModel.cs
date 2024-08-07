@@ -8,7 +8,10 @@ public class SetHabitViewModel : PageViewModelBase
 {
     public SetHabitViewModel()
     {
-        this.WhenAnyValue(x => x.HabitName, x => x.HabitMotivation)
+        this.WhenAnyValue(x => x.HabitName,
+        x => x.HabitMotivation,
+        x => x.StartDate,
+        x => x.ChallengeDays)
             .Subscribe(_ => UpdateCanNavigateNext());
     }
 
@@ -41,6 +44,34 @@ public class SetHabitViewModel : PageViewModelBase
         }
     }
     
+    private DateTimeOffset? _StartDate = DateTimeOffset.Now;
+    
+    public DateTimeOffset? StartDate
+    {
+        get
+        {
+            return _StartDate;
+        }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _StartDate, value);
+        }
+    }
+    
+    private int _ChallengeDays;
+
+    public int ChallengeDays
+    {
+        get
+        {
+            return _ChallengeDays;
+        }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _ChallengeDays, value);
+        }
+    }
+    
     private bool _CanNavigateNext;
     public override bool CanNavigateNext
     {
@@ -50,7 +81,7 @@ public class SetHabitViewModel : PageViewModelBase
     
     public override bool CanNavigatePrevious
     {
-        get => true;
+        get => false;
         protected set => throw new NotSupportedException();
     }
 
@@ -58,7 +89,10 @@ public class SetHabitViewModel : PageViewModelBase
     {
         CanNavigateNext =
             !string.IsNullOrEmpty(_HabitName)
-            && !string.IsNullOrEmpty(_HabitMotivation);
+            && !string.IsNullOrEmpty(_HabitMotivation)
+            && _StartDate != null
+            && _StartDate >= DateTimeOffset.Now.Date
+            && _ChallengeDays > 0;
     }
     
 }
