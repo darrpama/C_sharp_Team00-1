@@ -5,6 +5,8 @@ using rush00.App.ViewModels;
 
 namespace rush00.App;
 
+//  ViewLocator позволяет связывать ViewModel и View, если они названы в одном (требуемом) стиле
+
 public class ViewLocator : IDataTemplate
 {
 

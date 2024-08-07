@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using ReactiveUI;
 
 namespace rush00.App.ViewModels;
 
-public class ViewModelBase : ObservableObject
+public class ViewModelBase : ReactiveObject  // В шаблоне AvaloniaMVVM наследование было не от ReactiveObject, поменял вручную
 {
 }

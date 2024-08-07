@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:rush00.App.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="rush00.App.Views.SetHabitView"
+             x:DataType="vm:SetHabitViewModel">
+    <StackPanel Spacing="5">
+        <TextBlock Grid.Row="0"
+                   VerticalAlignment="Stretch"
+                   HorizontalAlignment="Left"
+                   FontSize="16"
+                   TextWrapping="Wrap"
+                   Text="Set a habit to track:"
+                   Margin="5 5 5 0">
+        </TextBlock>
+        <TextBox Grid.Row="1"
+            VerticalAlignment="Center"
+                 HorizontalAlignment="Stretch"
+                 Text="{Binding HabitName}"
+                 Watermark="Habit name"
+                 UseFloatingWatermark="True">
+        </TextBox>
+        <TextBlock VerticalAlignment="Center"
+                  HorizontalAlignment="Left"
+                  FontSize="16"
+                  TextWrapping="Wrap"
+                  Text="What would be a motivation:"
+                  Margin="5 5 5 0">
+        </TextBlock>
+        <TextBox VerticalAlignment="Center"
+                 HorizontalAlignment="Stretch"
+                 Text="{Binding HabitMotivation}"
+                 Watermark="Habit motivation"
+                 UseFloatingWatermark="True">
+        </TextBox>
+        <TextBlock VerticalAlignment="Center"
+                  HorizontalAlignment="Left"
+                  FontSize="16"
+                  TextWrapping="Wrap"
+                  Text="When will you start:"
+                  Margin="5 5 5 0">
+        </TextBlock>
+        <DatePicker>
+            
+        </DatePicker>
+    </StackPanel>
+</UserControl>

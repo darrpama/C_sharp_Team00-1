@@ -8,13 +8,14 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="rush00.App">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+<!-- В MainWindow есть Grid, в который помещён готовый контейнер из AvaloniaUI для отображения разных Views, которые у нас на самом деле UserControl -->
+<!-- см https://github.com/AvaloniaUI/Avalonia.Samples/tree/main/src/Avalonia.Samples/Routing/BasicViewLocatorSample -->
+    <Grid RowDefinitions="*, Auto" Margin="10">
+        <TransitioningContentControl Content="{Binding CurrentPage}"></TransitioningContentControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+            <Button Command="{Binding NavigatePreviousCommand}" Content="Back"></Button>
+            <Button Command="{Binding NavigateNextCommand}" Content="Next"></Button>
+        </StackPanel>
+    </Grid>
 
 </Window>
