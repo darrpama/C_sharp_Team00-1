@@ -2,7 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:rush00.App.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="rush00.App.Views.TrackingView">
-    Welcome to Avalonia!
+             x:Class="rush00.App.Views.TrackingView"
+             x:DataType="vm:TrackingViewModel">
+    <ScrollViewer Grid.Row="1">
+        <!-- This ItemsControl show all added ToDoItems. -->
+        <!-- It needs to be placed inside a ScrollViewer because other than a ListBox it has not its own -->
+        <ItemsControl ItemsSource="{Binding ListItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black"
+                            BorderThickness="1"
+                            Margin="5, 5, 20, 0"
+                            Padding="4"
+                            CornerRadius="5"></Border>
+                    
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
 </UserControl>

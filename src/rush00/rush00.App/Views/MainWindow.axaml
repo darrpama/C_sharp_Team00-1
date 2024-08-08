@@ -10,12 +10,11 @@
         Title="rush00.App">
 <!-- В MainWindow есть Grid, в который помещён готовый контейнер из AvaloniaUI для отображения разных Views, которые у нас на самом деле UserControl -->
 <!-- см https://github.com/AvaloniaUI/Avalonia.Samples/tree/main/src/Avalonia.Samples/Routing/BasicViewLocatorSample -->
-    <Grid RowDefinitions="*, Auto" Margin="10">
-        <TransitioningContentControl Content="{Binding CurrentPage}"></TransitioningContentControl>
-        <!-- <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left"> -->
-        <!--     <Button Command="{Binding NavigatePreviousCommand}" Content="Back"></Button> -->
-        <!--     <Button Command="{Binding NavigateNextCommand}" Content="Let's start!"></Button> -->
-        <!-- </StackPanel> -->
+    <Grid RowDefinitions="*, Auto" Margin="10" x:Name="ContentGrid">
+        <TransitioningContentControl Content="{Binding CurrentPage}" x:Name="ContentControl"></TransitioningContentControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
+            <Button Click="StartBtn_OnClick" Command="{Binding NavigateNextCommand}" IsVisible="{Binding StartButtonVisible}" Content="Let's start!" x:Name="StartBtn"></Button>
+        </StackPanel>
     </Grid>
 
 </Window>

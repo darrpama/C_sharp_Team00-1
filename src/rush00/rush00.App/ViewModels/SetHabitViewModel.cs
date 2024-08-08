@@ -96,6 +96,5 @@ public class SetHabitViewModel : PageViewModelBase
             && _ChallengeDays > 0;
     }
 
-    // public event Action<Habit>? OnHabitCreated;
 
 }
