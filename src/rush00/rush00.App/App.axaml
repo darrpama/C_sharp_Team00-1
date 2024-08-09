@@ -2,10 +2,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="rush00.App.App"
              xmlns:local="using:rush00.App"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Default"
+             xmlns:converters="using:rush00.App.Converters">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-    <Application.DataTemplates>
+             <Application.Resources>
+                 <ResourceDictionary>
+                    <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
+                 </ResourceDictionary>
+             </Application.Resources>
+             <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
   

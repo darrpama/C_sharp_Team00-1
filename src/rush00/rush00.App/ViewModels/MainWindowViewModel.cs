@@ -12,12 +12,11 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel()
     {
+        _startButtonVisible = true;
         _CurrentPage = Pages[0];
         var canNavNext = this.WhenAnyValue(x => x._CurrentPage.CanNavigateNext);
-        // var canNavPrev = this.WhenAnyValue(x => x._CurrentPage.CanNavigatePrevious);
 
         NavigateNextCommand = ReactiveCommand.Create(NavigateNext, canNavNext);
-        // NavigatePreviousCommand = ReactiveCommand.Create(NavigatePrevious, canNavPrev);
         
         this.WhenPropertyChanged(x => x.CurrentPage).Subscribe(_ => UpdateStartButtonVisibility());
     }
@@ -34,23 +33,22 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
     
-    private bool _StartButtonVisible;
+    private bool _startButtonVisible;
     public bool StartButtonVisible
     {
-        get => _StartButtonVisible;
-        protected set => this.RaiseAndSetIfChanged(ref _StartButtonVisible, value);
+        get => _startButtonVisible;
+        protected set => this.RaiseAndSetIfChanged(ref _startButtonVisible, value);
     }
- 
 
+    
     private readonly PageViewModelBase[] Pages =
     {
         new SetHabitViewModel(),
-        new TrackingViewModel(MainHabit)
+        new TrackingViewModel()
     };
     
     private PageViewModelBase _CurrentPage;
 
-    public static Habit MainHabit;
 
     public PageViewModelBase CurrentPage
     {
@@ -68,12 +66,4 @@ public partial class MainWindowViewModel : ViewModelBase
         var index = Pages.IndexOf(CurrentPage) + 1;
         CurrentPage = Pages[index];
     }
-    
-    // public ICommand NavigatePreviousCommand { get; }
-    //
-    // private void NavigatePrevious()
-    // {
-    //     var index = Pages.IndexOf(CurrentPage) - 1;
-    //     CurrentPage = Pages[index];
-    // }
 }

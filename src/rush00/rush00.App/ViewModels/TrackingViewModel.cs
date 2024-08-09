@@ -11,9 +11,8 @@ public class TrackingViewModel : PageViewModelBase
     public ObservableCollection<HabitCheck> ListItems { get; }
     public Habit Habit { get; }
         
-    public TrackingViewModel(Habit habit)
+    public TrackingViewModel()
     {
-        Habit = habit;
-        ListItems = new ObservableCollection<HabitCheck>();
+        if (Habit?.Checks != null) ListItems = new ObservableCollection<HabitCheck>(Habit.Checks);
     }
 }
