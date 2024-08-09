@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Input;
 using DynamicData;
+using DynamicData.Binding;
 using ReactiveUI;
 using rush00.Data.Models;
 
@@ -17,7 +18,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
         NavigateNextCommand = ReactiveCommand.Create(NavigateNext, canNavNext);
         // NavigatePreviousCommand = ReactiveCommand.Create(NavigatePrevious, canNavPrev);
-        this.WhenAnyValue(x => x._CurrentPage).Subscribe(_ => UpdateStartButtonVisibility());
+        
+        this.WhenPropertyChanged(x => x.CurrentPage).Subscribe(_ => UpdateStartButtonVisibility());
     }
 
     private void UpdateStartButtonVisibility()
