@@ -1,100 +1,74 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Reactive;
+using Avalonia.Controls.Chrome;
 using ReactiveUI;
 using rush00.Data;
+using rush00.Data.Models;
 
 namespace rush00.App.ViewModels;
 
-public class SetHabitViewModel : PageViewModelBase
+public class SetHabitViewModel : ViewModelBase
 {
+    public event Action<Habit>? HabitCreated;
+    public ReactiveCommand<Unit, Unit> StartCommand { get; }
+    
     public SetHabitViewModel()
     {
-        this.WhenAnyValue(x => x.HabitName,
-        x => x.HabitMotivation,
-        x => x.StartDate,
-        x => x.ChallengeDays)
-            .Subscribe(_ => UpdateCanNavigateNext());
+        var canStart = this.WhenAnyValue(x => x.HabitName,
+            x => x.HabitMotivation,
+            x => x.StartDate,
+            x => x.ChallengeDays,
+            (title, motivation, startDate, challengeDays) =>
+                !string.IsNullOrWhiteSpace(title) &&
+                !string.IsNullOrWhiteSpace(motivation) &&
+                startDate != null &&
+                startDate >= DateTimeOffset.Now.Date &&
+                challengeDays > 0);
+        
+        StartCommand = ReactiveCommand.Create(() =>
+        {
+            Habit newHabit = StartHabit();
+            HabitCreated?.Invoke(newHabit);
+        },
+        canExecute: canStart);
     }
 
-    private string _HabitName;
+    private Habit StartHabit()
+    {
+        var habit = new Habit(HabitName, HabitMotivation, ChallengeDays);
+        return habit;
+    }
+    
+    private string _habitName;
     
     [Required]
-    public string? HabitName
+    public string HabitName
     {
-        get
-        {
-            return _HabitName;
-        }
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _HabitName, value);
-        }
+        get  => _habitName;
+        set => this.RaiseAndSetIfChanged(ref _habitName, value);
     }
     
-    private string _HabitMotivation;
-    
-    public string? HabitMotivation
+    private string _habitMotivation;
+    public string HabitMotivation
     {
-        get
-        {
-            return _HabitMotivation;
-        }
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _HabitMotivation, value);
-        }
+        get => _habitMotivation;
+        set => this.RaiseAndSetIfChanged(ref _habitMotivation, value);
     }
     
-    private DateTimeOffset? _StartDate = DateTimeOffset.Now;
-    
+    private DateTimeOffset? _startDate = DateTimeOffset.Now;
     public DateTimeOffset? StartDate
     {
-        get
-        {
-            return _StartDate;
-        }
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _StartDate, value);
-        }
+        get => _startDate;
+        set => this.RaiseAndSetIfChanged(ref _startDate, value);
     }
     
-    private int _ChallengeDays;
+    private int _challengeDays;
 
     public int ChallengeDays
     {
-        get
-        {
-            return _ChallengeDays;
-        }
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _ChallengeDays, value);
-        }
+        get => _challengeDays;
+        set => this.RaiseAndSetIfChanged(ref _challengeDays, value);
     }
     
-    private bool _CanNavigateNext;
-    public override bool CanNavigateNext
-    {
-        get => _CanNavigateNext;
-        protected set => this.RaiseAndSetIfChanged(ref _CanNavigateNext, value);
-    }
-    
-    public override bool CanNavigatePrevious
-    {
-        get => false;
-        protected set => throw new NotSupportedException();
-    }
-
-    private void UpdateCanNavigateNext()
-    {
-        CanNavigateNext =
-            !string.IsNullOrEmpty(_HabitName)
-            && !string.IsNullOrEmpty(_HabitMotivation)
-            && _StartDate != null
-            && _StartDate >= DateTimeOffset.Now.Date
-            && _ChallengeDays > 0;
-    }
-
-
 }

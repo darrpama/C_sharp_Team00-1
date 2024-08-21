@@ -1,38 +1,22 @@
 using System.Collections.ObjectModel;
+using DynamicData;
 using rush00.Data.Models;
-using System;
-using System.Collections.Generic;
 
 namespace rush00.App.ViewModels;
 
-public class TrackingViewModel : PageViewModelBase, ITracking
+public class TrackingViewModel : ViewModelBase
 {
-    public override bool CanNavigateNext { get; protected set; }
-    public override bool CanNavigatePrevious { get; protected set; }
-    public ObservableCollection<HabitCheckViewModel> ListItems { get; }
+    public ObservableCollection<HabitCheckViewModel> ListItems { get; set; }
 
-    public void AddHabit(Habit habit)
-    {
-        Habit = habit;
-    }
     public Habit Habit { get; set; }
+    private MainWindowViewModel _mainWindowViewModel;
         
-    public TrackingViewModel()
+    public TrackingViewModel(Habit habit)
     {
-        // if (Habit?.Checks != null) ListItems = new ObservableCollection<HabitCheckViewModel>
-        // {
-        //     new HabitCheckViewModel(new HabitCheck(DateTime.Now.AddDays(1), false)),
-        //     new HabitCheckViewModel(new HabitCheck(DateTime.Now.AddDays(2), false))
-        // };
-        ListItems = new ObservableCollection<HabitCheckViewModel>
+        ListItems = new ObservableCollection<HabitCheckViewModel>();
+        foreach (HabitCheck check in habit.Checks)
         {
-            new HabitCheckViewModel(new HabitCheck(DateTime.Now.AddDays(1), false)),
-            new HabitCheckViewModel(new HabitCheck(DateTime.Now.AddDays(2), false))
-        };
+            ListItems.Add(new HabitCheckViewModel(check));
+        }
     }
-}
-
-public interface ITracking
-{
-    void AddHabit(Habit habit);
 }

@@ -1,8 +1,5 @@
 using System;
 using ReactiveUI;
-using Avalonia;
-using Avalonia.ReactiveUI;
-using CommunityToolkit.Mvvm.ComponentModel;
 using rush00.Data.Models;
 
 namespace rush00.App.ViewModels;

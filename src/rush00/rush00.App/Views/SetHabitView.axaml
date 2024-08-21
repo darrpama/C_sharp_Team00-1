@@ -59,5 +59,7 @@
                        Minimum="0"
                        FormatString="0">
         </NumericUpDown>
+        <Button Content="Let's start!"
+                Command="{Binding StartCommand}"> </Button>
     </StackPanel>
 </UserControl>

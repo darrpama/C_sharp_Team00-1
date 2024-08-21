@@ -14,9 +14,9 @@ namespace rush00.Data.Models
             }
         }
         public int Id { get; set; }
-        public string Title { get; private set; }
-        public string Motivation {  get; private set; }
-        public int NumDays { get; private set; }
+        public string Title { get; set; }
+        public string Motivation { get; set; }
+        public int NumDays { get; set; }
         public List<HabitCheck>? Checks { get; private set; }
         public bool IsFinihed { 
             get 

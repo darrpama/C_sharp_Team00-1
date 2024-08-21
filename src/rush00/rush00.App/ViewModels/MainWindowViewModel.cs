@@ -1,36 +1,63 @@
 ﻿using System;
-using System.Threading;
+using System.ComponentModel;
 using System.Windows.Input;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
+using rush00.Data;
 using rush00.Data.Models;
 
 namespace rush00.App.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public MainWindowViewModel()
-    {
-        _startButtonVisible = true;
-        _CurrentPage = Pages[0];
-        var canNavNext = this.WhenAnyValue(x => x._CurrentPage.CanNavigateNext);
+    private IDAOHabitRepository? _db;
+    private SetHabitViewModel _setHabitViewModel;
+    private CongratulationsViewModel _congratulationsViewModel;
 
-        NavigateNextCommand = ReactiveCommand.Create(NavigateNext, canNavNext);
-        
-        this.WhenPropertyChanged(x => x.CurrentPage).Subscribe(_ => UpdateStartButtonVisibility());
+    private Habit? _habit;
+    public Habit? Habit
+    {
+        get => _habit;
+        set
+        {
+            if (_habit == value) return;
+            this.RaiseAndSetIfChanged(ref _habit, value);
+            _habit?.Checks.ForEach(x => x.PropertyChanged += HabitCheckOnPropertyChanged);
+            UpdateCurrentPage();
+        }
     }
 
-    private void UpdateStartButtonVisibility()
+    private void HabitCheckOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (this.CurrentPage.GetType() == Pages[0].GetType())
+        if (_habit == null) return;
+        _db.UpdateHabit(_habit);
+        if (_habit.IsFinihed)
         {
-            StartButtonVisible = true;
+            CurrentPage = new CongratulationsViewModel();
         }
-        else
-        {
-            StartButtonVisible = false;
-        }
+    }
+    
+    public MainWindowViewModel()
+    {
+        _db = new HabitRepository(new HabitDbContext());
+        Habit = _db.GetActual();
+        
+        _setHabitViewModel = new SetHabitViewModel();
+        _congratulationsViewModel = new CongratulationsViewModel();
+        
+        _setHabitViewModel.HabitCreated += OnHabitCreated;
+        
+        Pages = [_setHabitViewModel, _congratulationsViewModel];
+        
+        UpdateCurrentPage();
+    }
+
+    private void OnHabitCreated(Habit habit)
+    {
+        Habit = habit;
+        _db.AddHabit(habit);
+        UpdateCurrentPage();
     }
     
     private bool _startButtonVisible;
@@ -39,18 +66,11 @@ public partial class MainWindowViewModel : ViewModelBase
         get => _startButtonVisible;
         protected set => this.RaiseAndSetIfChanged(ref _startButtonVisible, value);
     }
-
     
-    private readonly PageViewModelBase[] Pages =
-    {
-        new SetHabitViewModel(),
-        new TrackingViewModel()
-    };
+    private readonly ViewModelBase[] Pages;
     
-    private PageViewModelBase _CurrentPage;
-
-
-    public PageViewModelBase CurrentPage
+    private ViewModelBase _CurrentPage;
+    public ViewModelBase CurrentPage
     {
         get { return _CurrentPage; }
         private set
@@ -61,9 +81,20 @@ public partial class MainWindowViewModel : ViewModelBase
     
     public ICommand NavigateNextCommand { get; }
 
-    private void NavigateNext()
+    private void UpdateCurrentPage()
     {
-        var index = Pages.IndexOf(CurrentPage) + 1;
-        CurrentPage = Pages[index];
+        if (Habit == null)
+        {
+            CurrentPage = Pages[0];
+        }
+        else if (!Habit.IsFinihed)
+        {
+            CurrentPage = new TrackingViewModel(Habit);
+        }
+        else
+        {
+            CurrentPage = Pages[2];
+        }
+            
     }
 }
