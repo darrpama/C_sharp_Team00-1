@@ -38,17 +38,17 @@ public class SetHabitViewModel : ViewModelBase
         return habit;
     }
     
-    private string _habitName;
+    private string? _habitName;
     
     [Required]
-    public string HabitName
+    public string? HabitName
     {
         get  => _habitName;
         set => this.RaiseAndSetIfChanged(ref _habitName, value);
     }
     
-    private string _habitMotivation;
-    public string HabitMotivation
+    private string? _habitMotivation;
+    public string? HabitMotivation
     {
         get => _habitMotivation;
         set => this.RaiseAndSetIfChanged(ref _habitMotivation, value);

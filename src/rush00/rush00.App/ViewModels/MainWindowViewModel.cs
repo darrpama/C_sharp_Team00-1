@@ -12,18 +12,19 @@ namespace rush00.App.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    private IDAOHabitRepository? _db;
-    private SetHabitViewModel _setHabitViewModel;
+    private readonly IDAOHabitRepository? _db;
+    private readonly SetHabitViewModel? _setHabitViewModel;
 
     private Habit? _habit;
-    public Habit? Habit
+
+    private Habit? Habit
     {
         get => _habit;
         set
         {
             if (_habit == value) return;
             this.RaiseAndSetIfChanged(ref _habit, value);
-            _habit?.Checks.ForEach(x => x.PropertyChanged += HabitCheckOnPropertyChanged);
+            _habit?.Checks?.ForEach(x => x.PropertyChanged += HabitCheckOnPropertyChanged);
             // Console.WriteLine(_habit.IsFinished);
             UpdateCurrentPage();
         }
@@ -51,7 +52,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private void OnHabitCreated(Habit habit)
     {
         Habit = habit;
-        _db.AddHabit(habit);
+        _db?.AddHabit(habit);
         UpdateCurrentPage();
     }
     
@@ -63,18 +64,22 @@ public partial class MainWindowViewModel : ViewModelBase
     }
     
     
-    private ViewModelBase _CurrentPage;
-    public ViewModelBase CurrentPage
+    private ViewModelBase? _currentPage;
+
+    public MainWindowViewModel(IDAOHabitRepository? db)
     {
-        get { return _CurrentPage; }
+        _db = db;
+    }
+
+    public ViewModelBase? CurrentPage
+    {
+        get { return _currentPage; }
         private set
         {
-            this.RaiseAndSetIfChanged(ref _CurrentPage, value);
+            this.RaiseAndSetIfChanged(ref _currentPage, value);
         }
     }
     
-    public ICommand NavigateNextCommand { get; }
-
     private void UpdateCurrentPage()
     {
         if (Habit == null)
@@ -90,10 +95,11 @@ public partial class MainWindowViewModel : ViewModelBase
         else
         {
             Console.WriteLine("Habit is finished");
-            var Congratulations = new CongratulationsViewModel(Habit);
-            Congratulations.ScreenPressed += UpdateCurrentPage;
-            CurrentPage = Congratulations;
-            _db.RemoveHabit(Habit);
+            var congratulations = new CongratulationsViewModel(Habit);
+            if (congratulations == null) throw new ArgumentNullException(nameof(congratulations));
+            congratulations.ScreenPressed += UpdateCurrentPage;
+            CurrentPage = congratulations;
+            _db?.RemoveHabit(Habit);
             _habit = null;
         }
             

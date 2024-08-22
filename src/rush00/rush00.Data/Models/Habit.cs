@@ -2,7 +2,7 @@ namespace rush00.Data.Models
 {
     public class Habit
     {
-        public Habit(string title, string motivation, int numDays)
+        public Habit(string? title, string? motivation, int numDays)
         {
             Title = title;
             Motivation = motivation;
@@ -14,15 +14,15 @@ namespace rush00.Data.Models
             }
         }
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Motivation { get; set; }
+        public string? Title { get; set; }
+        public string? Motivation { get; set; }
         public int NumDays { get; set; }
         public List<HabitCheck>? Checks { get; set; }
         public bool IsFinished { 
             get 
             {
                 DateTime endDate = DateTime.Now.AddDays(NumDays - 1);
-                return DateTime.Now > endDate || Checks.All(check => check.IsChecked) || Checks.Last().IsChecked;
+                return Checks != null && (DateTime.Now > endDate || Checks.All(check => check.IsChecked) || Checks.Last().IsChecked);
             } 
         }
         

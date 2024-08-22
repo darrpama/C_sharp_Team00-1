@@ -12,9 +12,9 @@
 <!-- см https://github.com/AvaloniaUI/Avalonia.Samples/tree/main/src/Avalonia.Samples/Routing/BasicViewLocatorSample -->
     <Grid RowDefinitions="*, Auto" Margin="10" x:Name="ContentGrid">
         <TransitioningContentControl Content="{Binding CurrentPage}" x:Name="ContentControl"></TransitioningContentControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
-            <Button Click="StartBtn_OnClick" Command="{Binding NavigateNextCommand}" IsVisible="{Binding StartButtonVisible}" Content="Let's start!" x:Name="StartBtn"></Button>
-        </StackPanel>
+        <!-- <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left"> -->
+        <!--     <Button Click="StartBtn_OnClick" Command="{Binding NavigateNextCommand}" IsVisible="{Binding StartButtonVisible}" Content="Let's start!" x:Name="StartBtn"></Button> -->
+        <!-- </StackPanel> -->
     </Grid>
 
 </Window>
