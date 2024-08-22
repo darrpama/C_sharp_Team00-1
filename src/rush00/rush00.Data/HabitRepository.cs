@@ -22,24 +22,29 @@ public class HabitRepository : IDAOHabitRepository
         {
             _db.Add(check);
         }
-
         _db.SaveChanges();
     }
     
     public Habit? GetActual()
     {
         var habits = GetAllHabit();
-        return habits?.Where(habit => !habit.IsFinihed).FirstOrDefault(defaultValue: null) ?? null;
+        Habit? actualHabit = habits?.Where(habit => !habit.IsFinished).FirstOrDefault(defaultValue: null) ?? null;
+        if (actualHabit != null)
+        {
+            var habitChecks = _db.HabitChecks.Where(x => (x.HabitId == actualHabit.Id)).OrderBy(x => x.Date);
+            actualHabit.Checks = habitChecks.ToList();
+        }
+        return actualHabit;
     }
 
     public void RemoveHabit(Habit habit)
     {
-        var habitChecksToRemove = _db.HabitChecks.Where(x => x.HabitId == habit.Id);
-        _db.HabitChecks.RemoveRange(habitChecksToRemove);
 
         var habitToRemove = _db.Habits.SingleOrDefault(x => x.Id == habit.Id);
         if (habitToRemove != null)
         {
+            var habitChecksToRemove = _db.HabitChecks.Where(x => x.HabitId == habit.Id);
+            _db.HabitChecks.RemoveRange(habitChecksToRemove);
             _db.Habits.Remove(habitToRemove);
         }
 
@@ -53,25 +58,7 @@ public class HabitRepository : IDAOHabitRepository
 
     public void UpdateHabit(Habit habit)
     {
-        if (habit.Checks == null) return;
-        var habitToUpdate = _db.Habits.SingleOrDefault(x => x.Id == habit.Id);
-        if (habitToUpdate == null) return;
-        
-        habitToUpdate.Title = habit.Title;
-        habitToUpdate.Motivation = habit.Motivation;
-        habitToUpdate.NumDays = habit.NumDays;
-
-        foreach (var item in habit.Checks)
-        {
-            var habitCheckToUpdate = _db.HabitChecks.SingleOrDefault(x => (x.HabitId == habit.Id) && (x.Id == item.Id));
-            if (habitCheckToUpdate != null)
-            {
-                habitCheckToUpdate.IsChecked = item.IsChecked;
-            }
-        }
-
-        _db.SaveChanges();
-
-
+        RemoveHabit(habit);
+        AddHabit(habit);
     }
 }

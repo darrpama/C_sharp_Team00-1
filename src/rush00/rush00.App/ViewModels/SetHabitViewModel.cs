@@ -1,9 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reactive;
-using Avalonia.Controls.Chrome;
 using ReactiveUI;
-using rush00.Data;
 using rush00.Data.Models;
 
 namespace rush00.App.ViewModels;

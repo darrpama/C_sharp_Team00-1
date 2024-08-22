@@ -17,12 +17,12 @@ namespace rush00.Data.Models
         public string Title { get; set; }
         public string Motivation { get; set; }
         public int NumDays { get; set; }
-        public List<HabitCheck>? Checks { get; private set; }
-        public bool IsFinihed { 
+        public List<HabitCheck>? Checks { get; set; }
+        public bool IsFinished { 
             get 
             {
                 DateTime endDate = DateTime.Now.AddDays(NumDays - 1);
-                return DateTime.Now > endDate || Checks.All(check => check.IsChecked);
+                return DateTime.Now > endDate || Checks.All(check => check.IsChecked) || Checks.Last().IsChecked;
             } 
         }
         

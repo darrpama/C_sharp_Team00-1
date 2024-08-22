@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using DynamicData;
 using DynamicData.Binding;
@@ -24,31 +25,28 @@ public partial class MainWindowViewModel : ViewModelBase
             if (_habit == value) return;
             this.RaiseAndSetIfChanged(ref _habit, value);
             _habit?.Checks.ForEach(x => x.PropertyChanged += HabitCheckOnPropertyChanged);
+            // Console.WriteLine(_habit.IsFinished);
             UpdateCurrentPage();
         }
     }
 
     private void HabitCheckOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_habit == null) return;
-        _db.UpdateHabit(_habit);
-        if (_habit.IsFinihed)
-        {
-            CurrentPage = new CongratulationsViewModel();
-        }
+        if (Habit == null) return;
+        _db?.UpdateHabit(Habit);
+        UpdateCurrentPage();
     }
     
     public MainWindowViewModel()
     {
         _db = new HabitRepository(new HabitDbContext());
         Habit = _db.GetActual();
+        Console.WriteLine(Habit?.IsFinished);
         
         _setHabitViewModel = new SetHabitViewModel();
-        _congratulationsViewModel = new CongratulationsViewModel();
-        
         _setHabitViewModel.HabitCreated += OnHabitCreated;
         
-        Pages = [_setHabitViewModel, _congratulationsViewModel];
+        Pages = [_setHabitViewModel];
         
         UpdateCurrentPage();
     }
@@ -85,15 +83,22 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (Habit == null)
         {
+            Console.WriteLine("Habit is null");
             CurrentPage = Pages[0];
         }
-        else if (!Habit.IsFinihed)
+        else if (!Habit.IsFinished)
         {
+            Console.WriteLine("Habit is not finished");
             CurrentPage = new TrackingViewModel(Habit);
         }
         else
         {
-            CurrentPage = Pages[2];
+            Console.WriteLine("Habit is finished");
+            var Congratulations = new CongratulationsViewModel(Habit);
+            Congratulations.ScreenPressed += UpdateCurrentPage;
+            CurrentPage = Congratulations;
+            _db.RemoveHabit(Habit);
+            _habit = null;
         }
             
     }
