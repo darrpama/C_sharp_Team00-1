@@ -27,4 +27,8 @@
   <ItemGroup>
     <ProjectReference Include="..\rush00.Data\rush00.Data.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\HabitCheckViewModel.cs" />
+  </ItemGroup>
 </Project>

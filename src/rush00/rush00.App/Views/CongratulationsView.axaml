@@ -2,7 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm='clr-namespace:rush00.App.ViewModels'
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="rush00.App.Views.CongratulationsView">
-    Welcome to Avalonia!
+             x:Class="rush00.App.Views.CongratulationsView"
+             x:DataType="vm:CongratulationsViewModel"
+             PointerPressed="InputElement_OnPointerPressed">
+    <Grid VerticalAlignment="Center">
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="{Binding Congratulation}"></TextBlock>
+        </StackPanel>
+    </Grid>
 </UserControl>
