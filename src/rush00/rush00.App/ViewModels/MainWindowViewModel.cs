@@ -14,7 +14,6 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     private IDAOHabitRepository? _db;
     private SetHabitViewModel _setHabitViewModel;
-    private CongratulationsViewModel _congratulationsViewModel;
 
     private Habit? _habit;
     public Habit? Habit
@@ -46,8 +45,6 @@ public partial class MainWindowViewModel : ViewModelBase
         _setHabitViewModel = new SetHabitViewModel();
         _setHabitViewModel.HabitCreated += OnHabitCreated;
         
-        Pages = [_setHabitViewModel];
-        
         UpdateCurrentPage();
     }
 
@@ -65,7 +62,6 @@ public partial class MainWindowViewModel : ViewModelBase
         protected set => this.RaiseAndSetIfChanged(ref _startButtonVisible, value);
     }
     
-    private readonly ViewModelBase[] Pages;
     
     private ViewModelBase _CurrentPage;
     public ViewModelBase CurrentPage
@@ -84,7 +80,7 @@ public partial class MainWindowViewModel : ViewModelBase
         if (Habit == null)
         {
             Console.WriteLine("Habit is null");
-            CurrentPage = Pages[0];
+            CurrentPage = _setHabitViewModel;
         }
         else if (!Habit.IsFinished)
         {
