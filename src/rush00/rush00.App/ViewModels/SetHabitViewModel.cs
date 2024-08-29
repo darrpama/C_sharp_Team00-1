@@ -34,7 +34,7 @@ public class SetHabitViewModel : ViewModelBase
 
     private Habit StartHabit()
     {
-        var habit = new Habit(HabitName, HabitMotivation, ChallengeDays);
+        var habit = new Habit(HabitName, HabitMotivation, ChallengeDays, StartDate);
         return habit;
     }
     
@@ -54,8 +54,8 @@ public class SetHabitViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _habitMotivation, value);
     }
     
-    private DateTimeOffset? _startDate = DateTimeOffset.Now;
-    public DateTimeOffset? StartDate
+    private DateTimeOffset _startDate = DateTimeOffset.Now;
+    public DateTimeOffset StartDate
     {
         get => _startDate;
         set => this.RaiseAndSetIfChanged(ref _startDate, value);

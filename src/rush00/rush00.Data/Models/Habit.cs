@@ -2,7 +2,8 @@ namespace rush00.Data.Models
 {
     public class Habit
     {
-        public Habit(string? title, string? motivation, int numDays)
+        public Habit() { }
+        public Habit(string? title, string? motivation, int numDays, DateTimeOffset startDate)
         {
             Title = title;
             Motivation = motivation;
@@ -10,7 +11,7 @@ namespace rush00.Data.Models
             Checks = new(NumDays);
             for (int i = 0; i < NumDays; ++i)
             {
-                Checks.Add(new HabitCheck(DateTime.Now.AddDays(i), false));
+                Checks.Add(new HabitCheck(startDate.Date.AddDays(i), false));
             }
         }
         public int Id { get; set; }
