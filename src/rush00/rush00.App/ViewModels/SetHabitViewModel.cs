@@ -20,7 +20,6 @@ public class SetHabitViewModel : ViewModelBase
             (title, motivation, startDate, challengeDays) =>
                 !string.IsNullOrWhiteSpace(title) &&
                 !string.IsNullOrWhiteSpace(motivation) &&
-                startDate != null &&
                 startDate >= DateTimeOffset.Now.Date &&
                 challengeDays > 0);
         
